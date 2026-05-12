@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     {
         inputManager.OnMove += GetMoveDirectionFromInput;
         inputManager.OnJump += Jump;
+        inputManager.OnInteract += Interact;
     }
 
     private void Start()
@@ -53,6 +54,7 @@ public class PlayerController : MonoBehaviour
     {
         inputManager.OnMove -= GetMoveDirectionFromInput;
         inputManager.OnJump -= Jump;
+        inputManager.OnInteract -= Interact;
     }
 
     Vector3 inputDirection = Vector3.zero;
@@ -107,6 +109,11 @@ public class PlayerController : MonoBehaviour
     {
         verticalVelocity.y += gravityFactor * Time.deltaTime;
         controller.Move(verticalVelocity * Time.deltaTime);
+    }
+
+    private void Interact()
+    {
+        GetComponentInChildren<PlayerCheckInteraction>().OnInteract();
     }
 
     private void OnDrawGizmos()

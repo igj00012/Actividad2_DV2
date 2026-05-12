@@ -9,6 +9,7 @@ public class InputManagerSO : ScriptableObject
 
     public event Action<Vector2> OnMove;
     public event Action OnJump;
+    public event Action OnInteract;
 
     private void OnEnable()
     {
@@ -23,6 +24,9 @@ public class InputManagerSO : ScriptableObject
 
         // Jump input
         myControls.Gameplay.Jump.started += Jump;
+
+        // Interact input
+        myControls.Gameplay.Interact.started += Interact;
     }
 
     private void OnDisable()
@@ -36,6 +40,9 @@ public class InputManagerSO : ScriptableObject
 
         // Jump input
         myControls.Gameplay.Jump.started -= Jump;
+
+        // Interact input
+        myControls.Gameplay.Interact.started -= Interact;
     }
 
     private void Move(InputAction.CallbackContext ctx)
@@ -46,5 +53,10 @@ public class InputManagerSO : ScriptableObject
     private void Jump(InputAction.CallbackContext ctx)
     {
         OnJump?.Invoke();
+    }
+
+    private void Interact(InputAction.CallbackContext ctx)
+    {
+        OnInteract?.Invoke();
     }
 }
