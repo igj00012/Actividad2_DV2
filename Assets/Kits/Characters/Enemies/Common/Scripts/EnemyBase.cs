@@ -5,12 +5,23 @@ using UnityEngine.AI;
 
 public class EnemyBase : MonoBehaviour
 {
+    protected enum EnemyState
+    {
+        Idle,
+        Patrol,
+        Chase,
+        Attack
+    }
+
+    [SerializeField] protected EnemyState currentState; //debug
+
     [Header("Target")]
     [SerializeField] protected Transform target;
 
     [Header("Combat parameters")]
     [SerializeField] float damage = 10f;
     [SerializeField] float attackDelay = 2f;
+    float lastAttackTime = 0f;
 
     protected NavMeshAgent agent;
     protected Animator anim;
@@ -23,21 +34,71 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void Update()
     {
-        TryAttack();
+        switch (currentState)
+        {
+            case EnemyState.Idle:
+                break;
+            case EnemyState.Patrol:
+                PatrolUpdate();
+                break;
+            case EnemyState.Chase:
+                ChaseUpdate();
+                break;
+            case EnemyState.Attack:
+                AttackUpdate();
+                break;
+        }
+
+        if (isAttacking)
+        {
+            anim.SetFloat("Velocity", 0);
+        }
     }
 
-    private void TryAttack()
+    protected virtual void PatrolUpdate() { }
+    protected virtual void ChaseUpdate() { }
+    protected virtual void AttackUpdate() { }
+
+    protected void ChangeState(EnemyState enemyState)
     {
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        currentState = enemyState;
+
+        switch (currentState)
         {
-            print("Hola amego");
+            case EnemyState.Idle:
+                agent.isStopped = true;
+                break;
+            case EnemyState.Patrol:
+                agent.isStopped = false;
+                break;
+            case EnemyState.Chase:
+                agent.isStopped = false;
+                break;
+            case EnemyState.Attack:
+                agent.isStopped = true;
+                break;
+        }
+    }
+
+    protected bool isAttacking = false;
+    protected void TryAttack()
+    {
+        Debug.Log(Vector3.Distance(transform.position, target.position));
+
+        if (Vector3.Distance(transform.position, target.position) <= agent.stoppingDistance 
+            && Time.time >= lastAttackTime + attackDelay && !isAttacking)
+        {
+            isAttacking = true;
+            lastAttackTime = Time.time;
+
+            anim.SetFloat("Velocity", 0);
+            agent.isStopped = true;
+
             Vector3 directionToTarget = (target.position - transform.position).normalized;
             directionToTarget.y = 0f;
             transform.rotation = Quaternion.LookRotation(directionToTarget);
 
-            anim.SetBool("Walking", false);
-            agent.isStopped = true;
-            anim.SetBool("Attacking", true);
+            anim.SetTrigger("Attacking");
         }
     }
 
@@ -48,7 +109,11 @@ public class EnemyBase : MonoBehaviour
 
     private void EndAttack()
     {
-        agent.isStopped = false;
-        anim.SetBool("Attacking", false);
+        isAttacking = false;
+
+        if (currentState != EnemyState.Attack)
+        {
+            agent.isStopped = false;
+        }
     }
 }

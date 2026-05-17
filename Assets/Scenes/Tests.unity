@@ -281,7 +281,7 @@ Transform:
   m_GameObject: {fileID: 261923459}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 70, y: 1, z: 179.7}
+  m_LocalPosition: {x: 70.23, y: 1, z: 277.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -442,7 +442,7 @@ Transform:
   m_GameObject: {fileID: 404196184}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 152.39, y: 1.022421, z: 221.53}
+  m_LocalPosition: {x: 81.8, y: 1.022421, z: 279.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -492,25 +492,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 261923460}
-    - target: {fileID: 428455721721753721, guid: fc3658da06f6ec648a0bd125c513851f,
-        type: 3}
-      propertyPath: triggerChasings.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 428455721721753721, guid: fc3658da06f6ec648a0bd125c513851f,
-        type: 3}
-      propertyPath: triggerChasings.Array.data[0]
-      value: 
-      objectReference: {fileID: 997919101}
-    - target: {fileID: 428455721721753721, guid: fc3658da06f6ec648a0bd125c513851f,
-        type: 3}
-      propertyPath: triggerChasings.Array.data[1]
-      value: 
-      objectReference: {fileID: 248427067}
     - target: {fileID: 4859525766409476599, guid: fc3658da06f6ec648a0bd125c513851f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 69.06
+      value: 73.63
       objectReference: {fileID: 0}
     - target: {fileID: 4859525766409476599, guid: fc3658da06f6ec648a0bd125c513851f,
         type: 3}
@@ -520,27 +505,27 @@ PrefabInstance:
     - target: {fileID: 4859525766409476599, guid: fc3658da06f6ec648a0bd125c513851f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 187.932
+      value: 281.18
       objectReference: {fileID: 0}
     - target: {fileID: 4859525766409476599, guid: fc3658da06f6ec648a0bd125c513851f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.29490376
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4859525766409476599, guid: fc3658da06f6ec648a0bd125c513851f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.028513255
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4859525766409476599, guid: fc3658da06f6ec648a0bd125c513851f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.9506672
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4859525766409476599, guid: fc3658da06f6ec648a0bd125c513851f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.09192791
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4859525766409476599, guid: fc3658da06f6ec648a0bd125c513851f,
         type: 3}
@@ -565,7 +550,7 @@ PrefabInstance:
     - target: {fileID: 8474795422727106484, guid: fc3658da06f6ec648a0bd125c513851f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -587,6 +572,7 @@ GameObject:
   - component: {fileID: 806086854}
   - component: {fileID: 806086853}
   - component: {fileID: 806086852}
+  - component: {fileID: 806086859}
   m_Layer: 0
   m_Name: PatrollingEnemy
   m_TagString: Untagged
@@ -603,9 +589,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 806086851}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e662bdb07ee2e5c4abf3c813f20310d1, type: 3}
+  m_Script: {fileID: 11500000, guid: ba17f41e546fe2848bcb8d3775d2817f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
+  target: {fileID: 261923460}
+  damage: 10
+  attackDelay: 2
+  patrolPoints:
+  - {fileID: 645883833}
+  - {fileID: 404196185}
+  - {fileID: 1148228030}
+  persecutionDistance: 5
+  delayTimeBetweenPoints: 6
+  drawGizmos: 0
 --- !u!195 &806086853
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -743,6 +740,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &806086859
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806086851}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 99835e0fca80d1a468c6ca608d46831b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &997919100
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,7 +852,7 @@ Transform:
   m_GameObject: {fileID: 1148228029}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 77.6, y: 1.022421, z: 203}
+  m_LocalPosition: {x: 57.33, y: 1.022421, z: 275.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -922,7 +940,7 @@ Transform:
   m_GameObject: {fileID: 1341525575}
   serializedVersion: 2
   m_LocalRotation: {x: 0.03873307, y: -0.695406, z: 0.03758878, w: 0.71658725}
-  m_LocalPosition: {x: 69.995, y: 1.553, z: 179.89}
+  m_LocalPosition: {x: 70.225006, y: 1.553, z: 277.24}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1395,6 +1413,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6c28889f8f0dc47a0e7a04c8583843, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentState: 0
   target: {fileID: 0}
   damage: 10
   attackDelay: 2
@@ -1758,7 +1777,7 @@ PrefabInstance:
     - target: {fileID: 1847131596686953476, guid: 3e09a9616836d304489d5b8635b82acf,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 197.18
+      value: 284.61
       objectReference: {fileID: 0}
     - target: {fileID: 1847131596686953476, guid: 3e09a9616836d304489d5b8635b82acf,
         type: 3}

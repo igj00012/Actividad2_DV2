@@ -4,21 +4,27 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+// Añadir deteccion por visión
 public class PatrollingEnemy : EnemyBase
 {
     [Header("Movement")]
     [SerializeField] Transform[] patrolPoints;
-    int currentPointIndex = 0;
+    int currentPointIndex;
     [SerializeField] float persecutionDistance = 5f;
     [SerializeField] float delayTimeBetweenPoints = 6f;
 
     public bool drawGizmos = false;
 
+    private void Start()
+    {
+        currentPointIndex = Random.Range(0, patrolPoints.Length);
+        ChangeState(EnemyState.Patrol);
+    }
+
     protected override void Update()
     {
         CheckPlayer();
-
-        DecideMove();
 
         base.Update();
     }
@@ -30,52 +36,85 @@ public class PatrollingEnemy : EnemyBase
         {
             playerDetected = true;
         }
-    }
-
-    private void DecideMove()
-    {
-        if (playerDetected)
-        {
-            ChasePlayer();
-        }
         else
-        {
-            Patrolling();
-        }
-    }
-
-    private void ChasePlayer()
-    {
-        if (Vector3.Distance(transform.position, target.position) > persecutionDistance)
         {
             playerDetected = false;
         }
-        else
-        {
-            anim.SetBool("Walking", true);
-            agent.SetDestination(target.position);
-        }
     }
 
-    private void Patrolling()
+    bool isWaiting = false;
+    protected override void PatrolUpdate()
     {
-        if (Vector3.Distance(transform.position, patrolPoints[currentPointIndex].position) > agent.stoppingDistance)
+        if (playerDetected)
         {
-            anim.SetBool("Walking", true);
-            agent.SetDestination(patrolPoints[currentPointIndex].position);
+            ChangeState(EnemyState.Chase);
         }
         else
         {
-            StartCoroutine(DelayWalk());
-
-            currentPointIndex = Random.Range(0, patrolPoints.Length);
+            if (!isWaiting)
+            {
+                if (Vector3.Distance(transform.position, patrolPoints[currentPointIndex].position) > agent.stoppingDistance)
+                {
+                    anim.SetFloat("Velocity", 1);
+                    agent.SetDestination(patrolPoints[currentPointIndex].position);
+                }
+                else
+                {
+                    StartCoroutine(DelayWalk());
+                }
+            }
         }
     }
 
     IEnumerator DelayWalk()
     {
-        anim.SetBool("Walking", false);
+        isWaiting = true;
+
+        ChangeState(EnemyState.Idle);
+
+        anim.SetFloat("Velocity", 0);
+
         yield return new WaitForSeconds(delayTimeBetweenPoints);
+
+        currentPointIndex = Random.Range(0, patrolPoints.Length);
+        isWaiting = false;
+        
+        ChangeState(EnemyState.Patrol);
+    }
+
+    protected override void ChaseUpdate()
+    {
+        if (!playerDetected)
+        {
+            ChangeState(EnemyState.Patrol);
+        }
+        else
+        {
+            if (Vector3.Distance(transform.position, target.position) <= agent.stoppingDistance)
+            {
+                ChangeState(EnemyState.Attack);
+            }
+            else
+            {
+                anim.SetFloat("Velocity", 1);
+                agent.SetDestination(target.position);
+            }
+        }
+    }
+
+    protected override void AttackUpdate()
+    {
+        if (isAttacking) return;
+
+        if (Vector3.Distance(transform.position, target.position) > agent.stoppingDistance)
+        {
+            anim.ResetTrigger("Attacking");
+            ChangeState(EnemyState.Chase);
+        }
+        else
+        {
+            TryAttack();
+        }
     }
 
     private void OnDrawGizmos()

@@ -28,20 +28,17 @@ public class FollowingEnemy : EnemyBase
     {
         agentMaxSpeed = agent.speed;
 
+        ChangeState(EnemyState.Idle);
+
         if (triggerChasings.Length == 0)
         {
             StartChasing();
         }
     }
 
-    bool chasing = false;
     protected override void Update()
     {
-        if (chasing)
-        {
-            Move();
-            base.Update();
-        }
+        base.Update();
     }
 
     private void OnDisable()
@@ -57,12 +54,35 @@ public class FollowingEnemy : EnemyBase
 
     private void StartChasing()
     {
-        if (!chasing) chasing = true;
+        ChangeState(EnemyState.Chase);
+    }
+
+    protected override void ChaseUpdate()
+    {
+        if (Vector3.Distance(transform.position, target.position) <= agent.stoppingDistance)
+        {
+            ChangeState(EnemyState.Attack);
+        }
+        else
+        {
+            Move();
+        }
+    }
+    protected override void AttackUpdate() 
+    {
+        if (Vector3.Distance(transform.position, target.position) > agent.stoppingDistance)
+        {
+            ChangeState(EnemyState.Chase);
+        }
+        else
+        {
+            TryAttack();
+        }
     }
 
     private void Move()
     {
-        if (agent.remainingDistance <= walkDistance)
+        if (Vector3.Distance(transform.position, target.position) <= walkDistance)
         {
             agent.speed = agentMinSpeed;
         }
