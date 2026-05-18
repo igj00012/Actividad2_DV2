@@ -57,7 +57,20 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void PatrolUpdate() { }
     protected virtual void ChaseUpdate() { }
-    protected virtual void AttackUpdate() { }
+    protected void AttackUpdate()
+    {
+        if (isAttacking) return;
+
+        if (Vector3.Distance(transform.position, target.position) > agent.stoppingDistance)
+        {
+            anim.ResetTrigger("Attacking");
+            ChangeState(EnemyState.Chase);
+        }
+        else
+        {
+            TryAttack();
+        }
+    }
 
     protected void ChangeState(EnemyState enemyState)
     {
@@ -104,7 +117,7 @@ public class EnemyBase : MonoBehaviour
 
     private void Attack()
     {        
-        Debug.Log("Atacando al player");
+        Debug.Log("Atacando");
     }
 
     private void EndAttack()

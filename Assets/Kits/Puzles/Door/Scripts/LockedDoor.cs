@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Door : MonoBehaviour, IInteractable
+public class LockedDoor : MonoBehaviour, IInteractable
 {
     [SerializeField] TextMeshPro interactionText;
+
+    [SerializeField] AudioClip openDoor;
+    [SerializeField] AudioClip closedDoor;
 
     Animator anim;
     AudioSource source;
@@ -21,15 +24,22 @@ public class Door : MonoBehaviour, IInteractable
         if (interactor.HasKey())
         {
             interactor.SetKeyPicked(false);
-            source.PlayOneShot(source.clip);
+            source.PlayOneShot(openDoor);
             anim.SetTrigger("Opening");
+        }
+        else
+        {
+            source.PlayOneShot(closedDoor);
         }
     }
 
     public void ShowTextMessage(string newText)
     {
-        interactionText.SetText(newText);
-        interactionText.gameObject.SetActive(true);
+        if (anim.enabled)
+        {
+            interactionText.SetText(newText);
+            interactionText.gameObject.SetActive(true);
+        }
     }
 
     public void HideTextMessage()

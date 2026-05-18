@@ -68,17 +68,6 @@ public class FollowingEnemy : EnemyBase
             Move();
         }
     }
-    protected override void AttackUpdate() 
-    {
-        if (Vector3.Distance(transform.position, target.position) > agent.stoppingDistance)
-        {
-            ChangeState(EnemyState.Chase);
-        }
-        else
-        {
-            TryAttack();
-        }
-    }
 
     private void Move()
     {

@@ -102,21 +102,6 @@ public class PatrollingEnemy : EnemyBase
         }
     }
 
-    protected override void AttackUpdate()
-    {
-        if (isAttacking) return;
-
-        if (Vector3.Distance(transform.position, target.position) > agent.stoppingDistance)
-        {
-            anim.ResetTrigger("Attacking");
-            ChangeState(EnemyState.Chase);
-        }
-        else
-        {
-            TryAttack();
-        }
-    }
-
     private void OnDrawGizmos()
     {
         if (drawGizmos)
