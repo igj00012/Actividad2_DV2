@@ -2173,7 +2173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   target: {fileID: 0}
-  damage: 0.3
+  damage: 35
   attackDelay: 2
   attackPoint: {fileID: 7269097071578442627}
   attackRadius: 1
@@ -2195,7 +2195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37740ea7bb600c5428b9b89fef4eaef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealthPoints: 0.5
+  maxHealthPoints: 50
   currentHP: 0
   healthBar: {fileID: 0}
 --- !u!82 &336638332351896564

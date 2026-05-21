@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
         return Physics.CheckSphere(foot.position, sphereRadius, whatIsFloor);
     }
 
-    [SerializeField] Vector3 verticalVelocity = Vector3.zero;
+    [SerializeField] Vector3 verticalVelocity = Vector3.zero; // debug
     void Jump()
     {
         if (IsInFloor())
