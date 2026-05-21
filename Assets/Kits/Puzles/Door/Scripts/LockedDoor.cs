@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class LockedDoor : MonoBehaviour, IInteractable
+public class LockedDoor : InteractableItem
 {
-    [SerializeField] TextMeshPro interactionText;
-
+    [Header("SFX")]
     [SerializeField] AudioClip openDoor;
     [SerializeField] AudioClip closedDoor;
 
@@ -19,7 +18,7 @@ public class LockedDoor : MonoBehaviour, IInteractable
         source = GetComponent<AudioSource>();
     }
 
-    public void Interact(PlayerCheckInteraction interactor)
+    public override void Interact(PlayerCheckInteraction interactor)
     {
         if (interactor.HasKey())
         {
@@ -31,20 +30,6 @@ public class LockedDoor : MonoBehaviour, IInteractable
         {
             source.PlayOneShot(closedDoor);
         }
-    }
-
-    public void ShowTextMessage(string newText)
-    {
-        if (anim.enabled)
-        {
-            interactionText.SetText(newText);
-            interactionText.gameObject.SetActive(true);
-        }
-    }
-
-    public void HideTextMessage()
-    {
-        interactionText.gameObject.SetActive(false);
     }
 
     public void StopAnimator()

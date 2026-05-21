@@ -22,4 +22,11 @@ public class SequenceDoor : PuzzleButtonBase
             SolvedPuzzle();
         }
     }
+
+    protected override void SolvedPuzzle()
+    {
+        base.SolvedPuzzle();
+
+        Destroy(gameObject);
+    }
 }

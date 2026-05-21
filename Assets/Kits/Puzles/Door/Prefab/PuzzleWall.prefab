@@ -118,7 +118,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -163,7 +163,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -215,4 +215,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8eb055370780c3d4f91a03362406d841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredButtons: []
+  requiredButtons:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  incorrectSFX: {fileID: 8300000, guid: d339951dee4d0f04eac0d7f2a778457f, type: 3}
+  correctSFX: {fileID: 8300000, guid: d0359e1abcc8ac34cbee535c1fe516ff, type: 3}

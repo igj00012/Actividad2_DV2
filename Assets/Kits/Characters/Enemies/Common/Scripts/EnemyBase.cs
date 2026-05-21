@@ -10,7 +10,8 @@ public class EnemyBase : MonoBehaviour
         Idle,
         Patrol,
         Chase,
-        Attack
+        Attack,
+        Stun
     }
 
     [SerializeField] protected EnemyState currentState; //debug
@@ -19,9 +20,12 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] protected Transform target;
 
     [Header("Combat parameters")]
-    [SerializeField] float damage = 10f;
+    [SerializeField] float damage = 0.1f;
     [SerializeField] float attackDelay = 2f;
     float lastAttackTime = 0f;
+    [SerializeField] protected Transform attackPoint;
+    [SerializeField] protected float attackRadius = 3f;
+    [SerializeField] public float stunTime = 5f;
 
     protected NavMeshAgent agent;
     protected Animator anim;
@@ -34,24 +38,28 @@ public class EnemyBase : MonoBehaviour
 
     protected virtual void Update()
     {
-        switch (currentState)
+        if (currentState != EnemyState.Stun)
         {
-            case EnemyState.Idle:
-                break;
-            case EnemyState.Patrol:
-                PatrolUpdate();
-                break;
-            case EnemyState.Chase:
-                ChaseUpdate();
-                break;
-            case EnemyState.Attack:
-                AttackUpdate();
-                break;
-        }
 
-        if (isAttacking)
-        {
-            anim.SetFloat("Velocity", 0);
+            switch (currentState)
+            {
+                case EnemyState.Idle:
+                    break;
+                case EnemyState.Patrol:
+                    PatrolUpdate();
+                    break;
+                case EnemyState.Chase:
+                    ChaseUpdate();
+                    break;
+                case EnemyState.Attack:
+                    AttackUpdate();
+                    break;
+            }
+
+            if (isAttacking)
+            {
+                anim.SetFloat("Velocity", 0);
+            }
         }
     }
 
@@ -90,6 +98,9 @@ public class EnemyBase : MonoBehaviour
             case EnemyState.Attack:
                 agent.isStopped = true;
                 break;
+            case EnemyState.Stun:
+                agent.isStopped = true;
+                break;
         }
     }
 
@@ -116,8 +127,21 @@ public class EnemyBase : MonoBehaviour
     }
 
     private void Attack()
-    {        
-        Debug.Log("Atacando");
+    {   
+        Debug.Log("Enemigo atacando");
+
+        Collider[] colliders = Physics.OverlapSphere(attackPoint.position, attackRadius);
+        foreach (Collider col in colliders)
+        {
+            if (col.CompareTag("Player"))
+            {
+                Life playerLife = col.gameObject.GetComponent<Life>();
+                if (playerLife != null)
+                {
+                    playerLife.TakeDamage(damage);
+                }
+            }
+        }
     }
 
     private void EndAttack()
@@ -129,4 +153,28 @@ public class EnemyBase : MonoBehaviour
             agent.isStopped = false;
         }
     }
+
+    public void Stunned()
+    {
+        ChangeState(EnemyState.Stun);
+
+        StopAllCoroutines();
+
+        anim.SetTrigger("Stunning");
+        StartCoroutine(StunnedCoroutine());
+    }
+
+    public bool IsStunned()
+    {
+        return currentState == EnemyState.Stun;
+    }
+
+    IEnumerator StunnedCoroutine()
+    {
+        anim.SetBool("Stun", true);
+        yield return new WaitForSeconds(stunTime);
+        anim.SetBool("Stun", false);
+    }
+
+    protected virtual void EndStun() { }
 }

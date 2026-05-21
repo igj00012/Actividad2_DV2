@@ -4,8 +4,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
-
-// Añadir deteccion por visión
 public class PatrollingEnemy : EnemyBase
 {
     [Header("Movement")]
@@ -42,25 +40,32 @@ public class PatrollingEnemy : EnemyBase
         }
     }
 
+    Coroutine delayWalkCoroutine;
     bool isWaiting = false;
     protected override void PatrolUpdate()
     {
-        if (playerDetected)
+        if (currentState != EnemyState.Stun)
         {
-            ChangeState(EnemyState.Chase);
-        }
-        else
-        {
-            if (!isWaiting)
+            if (playerDetected)
             {
-                if (Vector3.Distance(transform.position, patrolPoints[currentPointIndex].position) > agent.stoppingDistance)
+                ChangeState(EnemyState.Chase);
+            }
+            else
+            {
+                if (!isWaiting)
                 {
-                    anim.SetFloat("Velocity", 1);
-                    agent.SetDestination(patrolPoints[currentPointIndex].position);
-                }
-                else
-                {
-                    StartCoroutine(DelayWalk());
+                    if (Vector3.Distance(transform.position, patrolPoints[currentPointIndex].position) > agent.stoppingDistance)
+                    {
+                        anim.SetFloat("Velocity", 1);
+                        agent.SetDestination(patrolPoints[currentPointIndex].position);
+                    }
+                    else
+                    {
+                        if (delayWalkCoroutine == null)
+                        {
+                            delayWalkCoroutine = StartCoroutine(DelayWalk());
+                        }
+                    }
                 }
             }
         }
@@ -80,25 +85,48 @@ public class PatrollingEnemy : EnemyBase
         isWaiting = false;
         
         ChangeState(EnemyState.Patrol);
+
+        delayWalkCoroutine = null;
     }
 
     protected override void ChaseUpdate()
     {
-        if (!playerDetected)
+        if (currentState != EnemyState.Stun)
         {
-            ChangeState(EnemyState.Patrol);
-        }
-        else
-        {
-            if (Vector3.Distance(transform.position, target.position) <= agent.stoppingDistance)
+            if (!playerDetected)
             {
-                ChangeState(EnemyState.Attack);
+                ChangeState(EnemyState.Patrol);
             }
             else
             {
-                anim.SetFloat("Velocity", 1);
-                agent.SetDestination(target.position);
+                if (Vector3.Distance(transform.position, target.position) <= agent.stoppingDistance)
+                {
+                    ChangeState(EnemyState.Attack);
+                }
+                else
+                {
+                    anim.SetFloat("Velocity", 1);
+                    agent.SetDestination(target.position);
+                }
             }
+        }
+    }
+
+    protected override void EndStun()
+    {
+        isWaiting = false;
+        agent.isStopped = true;
+        agent.ResetPath();
+
+        if (Vector3.Distance(transform.position, target.position) > agent.stoppingDistance)
+        {
+            ChangeState(EnemyState.Patrol);
+            agent.SetDestination(patrolPoints[currentPointIndex].position);
+        }
+        else
+        {
+            ChangeState(EnemyState.Chase);
+            agent.SetDestination(target.position);
         }
     }
 
@@ -108,6 +136,9 @@ public class PatrollingEnemy : EnemyBase
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawSphere(transform.position, persecutionDistance);
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(attackPoint.position, attackRadius);
         }
     }
 }

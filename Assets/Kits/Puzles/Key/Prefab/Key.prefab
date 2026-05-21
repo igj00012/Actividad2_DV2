@@ -522,7 +522,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 034a622fe2cb2dc41ba48efb4e69590f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 2418708838911788803}
+  pickUpText: {fileID: 2418708838911788803}
+  cam: {fileID: 0}
 --- !u!65 &8747082779540377897
 BoxCollider:
   m_ObjectHideFlags: 0

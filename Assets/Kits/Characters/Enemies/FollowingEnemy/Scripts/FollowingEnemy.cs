@@ -59,13 +59,16 @@ public class FollowingEnemy : EnemyBase
 
     protected override void ChaseUpdate()
     {
-        if (Vector3.Distance(transform.position, target.position) <= agent.stoppingDistance)
+        if (currentState != EnemyState.Stun)
         {
-            ChangeState(EnemyState.Attack);
-        }
-        else
-        {
-            Move();
+            if (Vector3.Distance(transform.position, target.position) <= agent.stoppingDistance)
+            {
+                ChangeState(EnemyState.Attack);
+            }
+            else
+            {
+                Move();
+            }
         }
     }
 
@@ -83,5 +86,10 @@ public class FollowingEnemy : EnemyBase
         anim.SetFloat("Velocity", agent.speed / agentMaxSpeed);
 
         agent.SetDestination(target.position);
+    }
+
+    protected override void EndStun()
+    {
+        ChangeState(EnemyState.Chase);
     }
 }

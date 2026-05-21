@@ -4,31 +4,21 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class Button : MonoBehaviour, IInteractable
+public class Button : InteractableItem
 {
+    [Header("Parameters")]
     [SerializeField] int id;
     bool isPressed;
-
     [SerializeField] float scaleXFactor = 2f;
 
+    [Header("References")]
     [SerializeField] Light pointLight;
-    [SerializeField] TextMeshPro text;
 
     public event Action<int> OnPressed;
 
-    public void ShowTextMessage(string newText)
+    public override void Interact(PlayerCheckInteraction interactor)
     {
-        text.SetText(newText);
-        text.gameObject.SetActive(true);
-    }
-
-    public void HideTextMessage()
-    {
-        text.gameObject.SetActive(false);
-    }
-
-    public void Interact(PlayerCheckInteraction interactor)
-    {
+        // Los botones solo se pueden pulsar una vez
         if (!isPressed)
         {
             isPressed = true;

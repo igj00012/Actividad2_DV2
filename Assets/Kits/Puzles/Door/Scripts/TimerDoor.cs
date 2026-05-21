@@ -5,14 +5,17 @@ using static Unity.VisualScripting.Member;
 
 public class TimerDoor : PuzzleButtonBase
 {
+    [Header("Parameters")]
     [SerializeField] float timer = 10f;
 
+    [Header("SFX")]
     [SerializeField] AudioClip closedDoor;
 
     bool firstButton = true;
     Coroutine timeCoroutine;
     protected override void CheckButtonsPressed()
     {
+        // El timer empieza cuando se pulsa el primer botón
         if (firstButton)
         {
             firstButton = false;
@@ -47,7 +50,8 @@ public class TimerDoor : PuzzleButtonBase
     bool solvedPuzzle = false;
     protected override void SolvedPuzzle()
     {
-        source.PlayOneShot(correctSFX);
+        base.SolvedPuzzle();
+
         solvedPuzzle = true;
     }
 
@@ -57,7 +61,7 @@ public class TimerDoor : PuzzleButtonBase
         {
             if (solvedPuzzle)
             {
-                // Pantalla de victoria
+                // Abrir puerta, victoria
                 Debug.Log("Has ganado");
             }
             else

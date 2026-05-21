@@ -3,10 +3,8 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class KeyHandler : MonoBehaviour, IInteractable
+public class KeyHandler : InteractableItem
 {
-    [SerializeField] TextMeshPro text;
-
     AudioSource source;
 
     private void Awake()
@@ -14,7 +12,7 @@ public class KeyHandler : MonoBehaviour, IInteractable
         source = GetComponent<AudioSource>();
     }
 
-    public void Interact(PlayerCheckInteraction interactor)
+    public override void Interact(PlayerCheckInteraction interactor)
     {
         source.PlayOneShot(source.clip);
         interactor.SetKeyPicked(true);
@@ -26,16 +24,5 @@ public class KeyHandler : MonoBehaviour, IInteractable
     IEnumerator SoundDelay()
     {
         yield return new WaitForSeconds(source.clip.length);
-    }
-
-    public void ShowTextMessage(string newText)
-    {
-        text.SetText(newText);
-        text.gameObject.SetActive(true);
-    }
-
-    public void HideTextMessage()
-    {
-        text.gameObject.SetActive(false);
     }
 }

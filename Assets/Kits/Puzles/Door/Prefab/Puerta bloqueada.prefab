@@ -632,6 +632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ffceaaebdfbb34fb3415e57cb51757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionText: {fileID: 2524526984937884164}
-  openDoor: {fileID: 8300000, guid: 44b63b0db16ce624b97e45ebde0a0971, type: 3}
-  closedDoor: {fileID: 8300000, guid: bc37ad25465405a428a26ff0facd9a7b, type: 3}
+  pickUpText: {fileID: 2524526984937884164}
+  cam: {fileID: 0}
+  openDoor: {fileID: 8300000, guid: cf86b8bc8fab4a84796f2b956261b0c4, type: 3}
+  closedDoor: {fileID: 8300000, guid: ea7ca09ebcbd8a341a51be1c2ec4f0ca, type: 3}

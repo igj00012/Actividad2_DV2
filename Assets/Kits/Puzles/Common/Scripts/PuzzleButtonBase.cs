@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PuzzleButtonBase : MonoBehaviour
 {
+    [Header("Buttons")]
     [SerializeField] protected Button[] requiredButtons;
     protected List<int> pressedButtons = new List<int>();
 
+    [Header("SFX")]
     [SerializeField] AudioClip incorrectSFX;
-    [SerializeField]protected AudioClip correctSFX;
+    [SerializeField] protected AudioClip correctSFX;
 
     protected AudioSource source;
 
@@ -54,8 +56,6 @@ public class PuzzleButtonBase : MonoBehaviour
         source.PlayOneShot(correctSFX);
 
         StartCoroutine(SFXDelay());
-
-        Destroy(gameObject); //cambiar
     }
 
     IEnumerator SFXDelay()

@@ -10,6 +10,9 @@ public class InputManagerSO : ScriptableObject
     public event Action<Vector2> OnMove;
     public event Action OnJump;
     public event Action OnInteract;
+    public event Action OnToogleFlashLight;
+    public event Action OnStartFocus;
+    public event Action OnEndFocus;
 
     private void OnEnable()
     {
@@ -27,6 +30,13 @@ public class InputManagerSO : ScriptableObject
 
         // Interact input
         myControls.Gameplay.Interact.started += Interact;
+
+        // Toogle flashlight
+        myControls.Gameplay.ToogleFlashLight.started += ToogleFlashLight;
+
+        // Focus input
+        myControls.Gameplay.Shoot.started += StartFocus;
+        myControls.Gameplay.Shoot.canceled += EndFocus;
     }
 
     private void OnDisable()
@@ -43,6 +53,13 @@ public class InputManagerSO : ScriptableObject
 
         // Interact input
         myControls.Gameplay.Interact.started -= Interact;
+
+        // Toogle flashlight
+        myControls.Gameplay.ToogleFlashLight.started -= ToogleFlashLight;
+
+        // Focus input
+        myControls.Gameplay.Shoot.started -= StartFocus;
+        myControls.Gameplay.Shoot.canceled -= EndFocus;
     }
 
     private void Move(InputAction.CallbackContext ctx)
@@ -58,5 +75,20 @@ public class InputManagerSO : ScriptableObject
     private void Interact(InputAction.CallbackContext ctx)
     {
         OnInteract?.Invoke();
+    }
+
+    private void ToogleFlashLight(InputAction.CallbackContext ctx)
+    {
+        OnToogleFlashLight?.Invoke();
+    }
+
+    private void StartFocus(InputAction.CallbackContext ctx)
+    {
+        OnStartFocus?.Invoke();
+    }
+
+    private void EndFocus(InputAction.CallbackContext ctx)
+    {
+        OnEndFocus?.Invoke();
     }
 }

@@ -7,6 +7,7 @@ public class TriggerChasing : MonoBehaviour
 {
     public event Action OnStartChasing;
 
+    // Trigger que activa el movimeinto del enemigo que lo persigue
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
