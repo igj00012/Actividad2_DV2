@@ -58,9 +58,10 @@ public class PuzzleButtonBase : MonoBehaviour
         StartCoroutine(SFXDelay());
     }
 
+    float offset = 4f;
     IEnumerator SFXDelay()
     {
-        yield return new WaitForSeconds(correctSFX.length);
+        yield return new WaitForSeconds(correctSFX.length + offset);
     }
 
     protected void ResetButtons()

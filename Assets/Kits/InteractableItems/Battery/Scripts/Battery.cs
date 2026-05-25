@@ -27,8 +27,15 @@ public class Battery : InteractableItem
             {
                 flashLight.RecoverBattery(recoveryPercentage);
                 source.PlayOneShot(pickBatterySFX);
+                StartCoroutine(SoundDelay());
                 Destroy(gameObject);
             }
         }
+    }
+
+    float offset = 5;
+    IEnumerator SoundDelay()
+    {
+        yield return new WaitForSeconds(pickBatterySFX.length + offset);
     }
 }

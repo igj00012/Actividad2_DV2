@@ -18,11 +18,14 @@ public class KeyHandler : InteractableItem
         interactor.SetKeyPicked(true);
 
         StartCoroutine(SoundDelay());
+
         Destroy(gameObject);
     }
 
+
+    float offset = 4;
     IEnumerator SoundDelay()
     {
-        yield return new WaitForSeconds(source.clip.length);
+        yield return new WaitForSeconds(source.clip.length + offset);
     }
 }

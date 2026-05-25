@@ -33,8 +33,9 @@ public class Medikit : InteractableItem
         }
     }
 
+    float offset = 5;
     IEnumerator SoundDelay()
     {
-        yield return new WaitForSeconds(healthRecoverSFX.length);
+        yield return new WaitForSeconds(healthRecoverSFX.length + offset);
     }
 }

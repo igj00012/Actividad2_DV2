@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -20,6 +21,10 @@ public class GameplayUIManager : MonoBehaviour
     [SerializeField] GameObject pauseContent;
     [SerializeField] GameObject settingsMenu;
     [SerializeField] AudioSource gameSource;
+    [SerializeField] GameObject settingsSelectedObject;
+    [SerializeField] GameObject victorySelectedObject;
+    [SerializeField] GameObject defeatSelectedObject;
+    [SerializeField] GameObject pauseSelectedObject;
 
     [Header("Parameters")]
     [SerializeField] float delayTutorialTimer = 5;
@@ -99,6 +104,9 @@ public class GameplayUIManager : MonoBehaviour
 
         gameplayMenu.SetActive(false);
         defeatMenu.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(defeatSelectedObject);
     }
 
     public void Victory()
@@ -111,6 +119,9 @@ public class GameplayUIManager : MonoBehaviour
 
         gameplayMenu.SetActive(false);
         victoryMenu.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(victorySelectedObject);
     }
 
     public void Restart()
@@ -153,6 +164,9 @@ public class GameplayUIManager : MonoBehaviour
         gameplayMenu.SetActive(false);
         pauseMenu.SetActive(true);
         pauseContent.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(pauseSelectedObject);
     }
 
     public void Resume()
@@ -166,6 +180,9 @@ public class GameplayUIManager : MonoBehaviour
         gameplayMenu.SetActive(true);
         pauseMenu.SetActive(false);
         pauseContent.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(pauseSelectedObject);
     }
 
     public void OpenSettings()
@@ -174,12 +191,18 @@ public class GameplayUIManager : MonoBehaviour
 
         settingsMenu.SetActive(true);
         pauseContent.SetActive(false);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(settingsSelectedObject);
     }
 
     private void CloseSettings()
     {
         settingsMenu.SetActive(false);
         pauseContent.SetActive(true);
+
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(pauseSelectedObject);
     }
 
     public void MouseEnter()
