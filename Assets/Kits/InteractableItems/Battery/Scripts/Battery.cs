@@ -14,8 +14,6 @@ public class Battery : InteractableItem
 
     AudioSource source;
 
-    public event Action OnRechargeBattery;
-
     private void Awake()
     {
         source = GetComponent<AudioSource>();

@@ -1650,9 +1650,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37740ea7bb600c5428b9b89fef4eaef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  instance: {fileID: 0}
   maxHealthPoints: 0
   currentHP: 0
-  healthBar: {fileID: 0}
 --- !u!1 &322250295
 GameObject:
   m_ObjectHideFlags: 0
@@ -3041,7 +3041,7 @@ Transform:
   m_GameObject: {fileID: 997919100}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 69.94, y: 0, z: 182.104}
+  m_LocalPosition: {x: 75.315674, y: 0.236, z: 282.971}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5928,6 +5928,7 @@ MonoBehaviour:
   - {fileID: 1001473477}
   incorrectSFX: {fileID: 8300000, guid: bc37ad25465405a428a26ff0facd9a7b, type: 3}
   correctSFX: {fileID: 8300000, guid: 44b63b0db16ce624b97e45ebde0a0971, type: 3}
+  instance: {fileID: 0}
   timer: 10
   closedDoor: {fileID: 0}
 --- !u!82 &1941909036
@@ -6250,8 +6251,18 @@ PrefabInstance:
     - target: {fileID: 428455721721753721, guid: fc3658da06f6ec648a0bd125c513851f,
         type: 3}
       propertyPath: triggerChasings.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 428455721721753721, guid: fc3658da06f6ec648a0bd125c513851f,
+        type: 3}
+      propertyPath: triggerChasings.Array.data[0]
+      value: 
+      objectReference: {fileID: 248427067}
+    - target: {fileID: 428455721721753721, guid: fc3658da06f6ec648a0bd125c513851f,
+        type: 3}
+      propertyPath: triggerChasings.Array.data[1]
+      value: 
+      objectReference: {fileID: 997919101}
     - target: {fileID: 503449718387849030, guid: fc3658da06f6ec648a0bd125c513851f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7060,7 +7071,7 @@ PrefabInstance:
     - target: {fileID: 8474795422727106484, guid: fc3658da06f6ec648a0bd125c513851f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

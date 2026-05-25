@@ -5,10 +5,12 @@ using UnityEngine.UI;
 
 public class Life : MonoBehaviour
 {
-    [SerializeField] public float maxHealthPoints;
-    public float currentHP; //debug
+    [Header("References")]
+    [SerializeField] GameplayUIManager instance;
 
-    [SerializeField] Image healthBar;
+    [Header("Parameters")]
+    [SerializeField] float maxHealthPoints;
+    public float currentHP; //debug
 
     void Start()
     {
@@ -21,9 +23,9 @@ public class Life : MonoBehaviour
         currentHP -= damage;
 
         bool isPlayer = false;
-        if (healthBar != null && gameObject.GetComponent<PlayerController>())
+        if (gameObject.GetComponent<PlayerController>() && instance != null)
         {
-            healthBar.fillAmount = currentHP / maxHealthPoints;
+            instance.ChangeHP(currentHP / maxHealthPoints);
             isPlayer = true;
         }
 
@@ -32,7 +34,7 @@ public class Life : MonoBehaviour
             if (isPlayer)
             {
                 Debug.Log("He muerto");
-                // Pantalla de derrota
+                instance.Defeat();
             }
             else
             {
@@ -53,5 +55,19 @@ public class Life : MonoBehaviour
     {
         yield return new WaitForSeconds(stunTime);
         currentHP = maxHealthPoints;
+    }
+
+    public bool Healing(float healthRecovery)
+    {
+        bool healing = false;
+
+        if (currentHP < maxHealthPoints)
+        {
+            currentHP = Mathf.Min(currentHP + healthRecovery, maxHealthPoints);
+            instance.ChangeHP(currentHP);
+            healing = true;
+        }
+
+        return healing;
     }
 }

@@ -411,5 +411,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickUpText: {fileID: 769161942972425232}
   cam: {fileID: 0}
-  healthRecovery: 0.2
+  instance: {fileID: 0}
+  healthRecovery: 20
   healthRecoverSFX: {fileID: 8300000, guid: 47c884fdc5935cc45898461e8e7e27b2, type: 3}

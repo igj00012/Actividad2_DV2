@@ -5,6 +5,9 @@ using static Unity.VisualScripting.Member;
 
 public class TimerDoor : PuzzleButtonBase
 {
+    [Header("Refereces")]
+    [SerializeField] GameplayUIManager instance;
+
     [Header("Parameters")]
     [SerializeField] float timer = 10f;
 
@@ -61,8 +64,8 @@ public class TimerDoor : PuzzleButtonBase
         {
             if (solvedPuzzle)
             {
-                // Abrir puerta, victoria
                 Debug.Log("Has ganado");
+                instance.Victory();
             }
             else
             {

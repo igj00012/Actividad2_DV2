@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static Unity.VisualScripting.Member;
 
 public class FlashLight : InteractableItem
@@ -9,7 +11,9 @@ public class FlashLight : InteractableItem
     [SerializeField] Light spotLight;
     [SerializeField] Transform hand;
     [SerializeField] InputManagerSO inputManager;
-    [SerializeField] TextMeshProUGUI uiText;
+    [SerializeField] InputActionReference toggleLight;
+    [SerializeField] InputActionReference focusLight;
+    [SerializeField] GameplayUIManager instance;
 
     [Header(("Parameters"))]
     [SerializeField] float damage = 0.00001f;
@@ -33,12 +37,12 @@ public class FlashLight : InteractableItem
 
         currentBattery = maxBattery;
 
-        uiText.gameObject.SetActive(false);
+        instance.SetBatteryVisibility(false);
     }
 
     private void OnEnable()
     {
-        inputManager.OnToogleFlashLight += ToogleFlashLight;
+        inputManager.OnToggleFlashLight += ToggleFlashLight;
         inputManager.OnStartFocus += StartFocus;
         inputManager.OnEndFocus += StopFocus;
     }
@@ -55,12 +59,12 @@ public class FlashLight : InteractableItem
 
     private void OnDisable()
     {
-        inputManager.OnToogleFlashLight -= ToogleFlashLight;
+        inputManager.OnToggleFlashLight -= ToggleFlashLight;
         inputManager.OnStartFocus -= StartFocus;
         inputManager.OnEndFocus -= StopFocus;
     }
 
-    private void ToogleFlashLight()
+    private void ToggleFlashLight()
     {
         if (pickedUp)
         {
@@ -105,7 +109,8 @@ public class FlashLight : InteractableItem
                 spotLight.enabled = false;
             }
 
-            uiText.SetText((int)currentBattery + "%");
+            instance.ChangeBattery((int)currentBattery);
+
         }
     }
 
@@ -140,13 +145,23 @@ public class FlashLight : InteractableItem
 
         pickedUp = true;
 
-        uiText.gameObject.SetActive(true);
-        uiText.SetText(currentBattery + " %");
+        instance.SetBatteryVisibility(true);
+        instance.ChangeBattery((int)currentBattery);
+        instance.ShowTutorial("Use " + toggleLight.action.GetBindingDisplayString() + " to " + toggleLight.action.name + " the light");
+        StartCoroutine(WaitForNextText());
+    }
+
+    float waitTimer = 10;
+    IEnumerator WaitForNextText()
+    {
+        yield return new WaitForSeconds(waitTimer);
+
+        instance.ShowTutorial("Use " + focusLight.action.GetBindingDisplayString() + " to " + focusLight.action.name + " the light");
     }
 
     public void RecoverBattery(float batteryToRecover)
     {
         currentBattery = Mathf.Min(currentBattery + batteryToRecover, maxBattery);
-        uiText.SetText((int)currentBattery + " %");
+        instance.ChangeBattery((int)currentBattery);
     }
 }

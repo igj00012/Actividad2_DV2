@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class Medikit : InteractableItem
 {
+    [Header("References")]
+    [SerializeField] GameplayUIManager instance;
+
+    [Header("Parameters")]
     [SerializeField] float healthRecovery = 0.2f;
 
+    [Header("Audio")]
     [SerializeField] AudioClip healthRecoverSFX;
 
     AudioSource source;
@@ -20,12 +25,16 @@ public class Medikit : InteractableItem
         Life life = interactor.GetComponentInParent<Life>();
         if (life != null)
         {
-            if (life.currentHP < life.maxHealthPoints)
-            {
-                life.currentHP = Mathf.Min(life.currentHP + healthRecovery, life.maxHealthPoints);
+            if (life.Healing(healthRecovery)) { 
                 source.PlayOneShot(healthRecoverSFX);
+                StartCoroutine(SoundDelay());
                 Destroy(gameObject);
             }
         }
+    }
+
+    IEnumerator SoundDelay()
+    {
+        yield return new WaitForSeconds(healthRecoverSFX.length);
     }
 }

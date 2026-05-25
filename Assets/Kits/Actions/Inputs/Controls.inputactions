@@ -43,7 +43,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ToogleFlashLight",
+                    "name": "Toggle",
                     "type": "Button",
                     "id": "0731fe3c-be7f-4c82-865b-28a9a51270bd",
                     "expectedControlType": "",
@@ -52,7 +52,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Shoot",
+                    "name": "Focus",
                     "type": "Button",
                     "id": "9bdb63cf-af09-4b5c-9e1a-0d06d47de067",
                     "expectedControlType": "",
@@ -201,7 +201,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ToogleFlashLight",
+                    "action": "Toggle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -212,7 +212,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "ToogleFlashLight",
+                    "action": "Toggle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -223,7 +223,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoot",
+                    "action": "Focus",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -234,7 +234,46 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Shoot",
+                    "action": "Focus",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "b7592a15-c2a3-459b-a8e7-3746e7718899",
+            "actions": [
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "1db19097-62d3-4f9c-ac1a-3b12a389e398",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "69543164-a89f-40e5-952e-932d19ae2064",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f27f6982-5231-49e2-8676-561ed1ffdccd",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
